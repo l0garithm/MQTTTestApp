@@ -13,6 +13,8 @@ public class Main extends AppCompatActivity {
 
     public  int brightness = 0, currentValue = 0;
     public  String topic = "";
+    
+    private MQTTHelper helper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +24,10 @@ public class Main extends AppCompatActivity {
         Button toggleButton = (Button) findViewById(R.id.toggleButtonOnOff);
         final EditText topicPicker = (EditText) findViewById(R.id.editTextTopic);
         final SeekBar brightnessSelector = (SeekBar) findViewById(R.id.seekBarBrightnessSetting);
+        
+        TextView resultsWindow = (TextView) findViewById(R.id.resultsTextView);
+        
+        mqttHelper = new MQTTHelper((getApplicationContext()));
 
 
         brightnessSelector.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -70,11 +76,6 @@ public class Main extends AppCompatActivity {
     }
 
     private void transmitOverMQTT(int brightness, String topic){
-
-        MQTTHelper mqttHelper = new MQTTHelper((getApplicationContext()));
-
-        TextView resultsWindow = (TextView) findViewById(R.id.resultsTextView);
-
         String payload = String.valueOf(brightness);
 
         resultsWindow.setText("Brightness: " + brightness + "\n" + "Topic: " + topic + "\n");
